@@ -25,7 +25,7 @@ export class MaterialComponent implements OnInit {
     list: 'data',
     total: 'paging.count'
   };
-  url = `craft/componentInfo`;
+  url = `/craft/componentInfo`;
   // searchSchema: SFSchema = {
   //   properties: {
   //     no: {

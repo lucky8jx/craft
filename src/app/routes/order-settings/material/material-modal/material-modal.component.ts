@@ -37,7 +37,6 @@ import { SFSchema, SFUISchema } from '@delon/form';
         photo: {
           type: 'string',
           title: '头像',
-          enum: [],
           ui: {
             widget: 'upload',
             action: '/craft/componentInfo/file',
