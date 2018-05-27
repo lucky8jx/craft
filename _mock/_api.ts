@@ -164,7 +164,17 @@ function getComponentInfoById(id: any) {
     ].filter(item => item.id === id)[0];
 }
 
-export const MATARIAL = {
-    'craft/componentInfo': (req: MockRequest) => genData(req.queryString),
-    'craft/componentInfo/:id': (req: MockRequest) => getComponentInfoById(req.params.id),
+function addMaterial() {
+    return {
+        'data': true,
+        'message': 'ok',
+        'code': '200',
+        'success': true,
+        'paging': null
+    };
+}
+export const MATERIAL = {
+    'GET craft/componentInfo': (req: MockRequest) => genData(req.queryString),
+    'GET craft/componentInfo/:id': (req: MockRequest) => getComponentInfoById(req.params.id),
+    'POST /craft/componentInfo': (req: MockRequest) => addMaterial()
 };

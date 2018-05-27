@@ -34,6 +34,16 @@ import { SFSchema, SFUISchema } from '@delon/form';
         thick: { type: 'number', title: '厚度(mm)' },
         unitWeight: { type: 'number', title: '单位重量(kg)' },
         unitPrice: { type: 'number', title: '单价(元)' },
+        photo: {
+          type: 'string',
+          title: '头像',
+          enum: [],
+          ui: {
+            widget: 'upload',
+            action: '/craft/componentInfo/file',
+            resReName: 'data'
+          }
+        },
         description: { type: 'string', title: '备注', maxLength: 140 },
       },
       required: ['name', 'type', 'href'],
@@ -77,7 +87,20 @@ import { SFSchema, SFUISchema } from '@delon/form';
     }
 
     save(value: any) {
-      this.http.post(`/user/${this.record.id}`, value).subscribe(res => {
+      this.title ? this.addMaterial(value) : this.updateMaterial(value);
+    }
+
+    addMaterial(value: any) {
+      console.log(value);
+      this.http.post(`/craft/componentInfo`, value).subscribe(res => {
+        console.log(res);
+        this.msgSrv.success('保存成功');
+        this.modal.close(true);
+      });
+    }
+
+    updateMaterial(value: any) {
+      this.http.put(`/craft/componentInfo/${this.record.id}`, value).subscribe(res => {
         this.msgSrv.success('保存成功');
         this.modal.close(true);
       });
