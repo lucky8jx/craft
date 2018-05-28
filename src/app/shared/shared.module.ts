@@ -36,8 +36,8 @@ const DIRECTIVES = [];
     DelonABCModule,
     DelonACLModule,
     DelonFormModule,
-    AdPageHeaderModule,
-    AdSimpleTableModule,
+    // AdPageHeaderModule,
+    // AdSimpleTableModule,
     // third libs
     ...THIRDMODULES
   ],
