@@ -36,6 +36,6 @@ app.use(async (ctx) => {
     ctx.body = fs.createReadStream('./dist/index.html');
 });
 
-app.listen(8380, '120.27.21.73', () => {
+app.listen(8380, () => {
   console.log('server is running at http://localhost:8380');
 })
