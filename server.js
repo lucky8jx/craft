@@ -32,8 +32,14 @@ app.use(async (ctx, next) => {
 app.use(static(path.join(__dirname, './dist')));
 
 // 指定首页
-app.use(async (ctx) => {
-    ctx.body = fs.createReadStream('./dist/index.html');
+// app.use(async (ctx) => {
+//     ctx.body = fs.createReadStream('./dist/index.html');
+// });
+
+app.use(async (ctx, next) => {
+    await next()
+    ctx.response.type = 'text/html'
+    ctx.response.body = '<h1>Hello World</h1>'
 });
 
 app.listen(8380, () => {
