@@ -3,6 +3,8 @@ import { Router, NavigationEnd } from '@angular/router';
 import { SettingsService, TitleService } from '@delon/theme';
 import { filter } from 'rxjs/operators';
 
+declare var G2: any;
+
 @Component({
   selector: 'app-root',
   template: `<router-outlet></router-outlet>`,
@@ -25,7 +27,9 @@ export class AppComponent implements OnInit {
     private settings: SettingsService,
     private router: Router,
     private titleSrv: TitleService,
-  ) {}
+  ) {
+    if (typeof G2 !== 'undefined') G2.track(false);
+  }
 
   ngOnInit() {
     this.router.events

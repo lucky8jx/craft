@@ -1,4 +1,5 @@
 const Koa = require('koa');
+const router = require('koa-router')();
 const path = require('path');
 const proxy = require('http-proxy-middleware');
 const static = require('koa-static');
@@ -35,12 +36,12 @@ app.use(static(path.join(__dirname, './dist')));
 // app.use(async (ctx) => {
 //     ctx.body = fs.createReadStream('./dist/index.html');
 // });
-
-app.use(async (ctx, next) => {
-    await next()
-    ctx.response.type = 'text/html'
-    ctx.response.body = '<h1>Hello World</h1>'
+router.get('/*', async (ctx, next) => {
+    ctx.type = 'html';
+    ctx.body = fs.createReadStream('./dist/index.html');
 });
+
+app.use(router.routes());
 
 app.listen(8380, () => {
   console.log('server is running at http://localhost:8380');

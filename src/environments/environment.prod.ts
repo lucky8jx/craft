@@ -1,5 +1,5 @@
 export const environment = {
-  SERVER_URL: `./`,
+  SERVER_URL: `http://120.27.21.73/`,
   production: true,
-  useHash: true,
+  useHash: false,
 };
