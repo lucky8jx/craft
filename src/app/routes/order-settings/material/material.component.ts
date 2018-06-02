@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { _HttpClient } from '@delon/theme';
-import { SimpleTableColumn, SimpleTableComponent } from '@delon/abc';
+import { SimpleTableColumn, SimpleTableComponent, SimpleTableData } from '@delon/abc';
 import { MaterialModalComponent } from './material-modal/material-modal.component';
 import { NzModalService, NzMessageService } from 'ng-zorro-antd';
 // import { SFSchema } from 'nz-schema-form';
@@ -37,7 +37,7 @@ export class MaterialComponent implements OnInit {
   @ViewChild('st') st: SimpleTableComponent;
   columns: SimpleTableColumn[] = [
     { title: '材质/规格', index: 'name'},
-    { title: '类型', index: 'type' },
+    { title: '类型',  render: 'type', },
     {
       title: '图片',
       buttons: [
