@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { _HttpClient } from '@delon/theme';
 import { SimpleTableColumn, SimpleTableComponent } from '@delon/abc';
 import { MaterialModalComponent } from './material-modal/material-modal.component';
-import { NzModalService } from 'ng-zorro-antd';
+import { NzModalService, NzMessageService } from 'ng-zorro-antd';
 // import { SFSchema } from 'nz-schema-form';
 
 @Component({
@@ -25,7 +25,7 @@ export class MaterialComponent implements OnInit {
     list: 'data',
     total: 'paging.count'
   };
-  url = `craft/componentInfo`;
+  url = `/components`;
   // searchSchema: SFSchema = {
   //   properties: {
   //     no: {
@@ -36,7 +36,6 @@ export class MaterialComponent implements OnInit {
   // };
   @ViewChild('st') st: SimpleTableComponent;
   columns: SimpleTableColumn[] = [
-    // { title: '编号', index: 'no' },
     { title: '材质/规格', index: 'name'},
     { title: '类型', index: 'type' },
     {
@@ -59,16 +58,29 @@ export class MaterialComponent implements OnInit {
           {
               text: '删除',
               type: 'del',
-              click: (recond: any) => console.log('删除成功'),
+              click: (recond: any) => {
+                this.http.delete(`/components/${recond.id}`).subscribe(
+                  res => {
+                    this.st.reload();
+                    this.msgSrv.success('删除成功');
+                  },
+                  err => {
+                    this.msgSrv.error('删除失败');
+                  }
+                );
+              },
           },
           {
               text: '编辑',
               type: 'modal',
               component: MaterialModalComponent,
               click: (record: any, modal: any) => {
-                  console.log(modal);
+                  // console.log(modal);
                   if (modal === 'onOk') {
-                      // this.getMaterialList();
+                    this.st.reload();
+                    this.msgSrv.success('编辑保存成功');
+                  } else if (modal === 'onError') {
+                    this.msgSrv.error('编辑保存失败');
                   }
               },
               params: (record: any) => {
@@ -82,6 +94,7 @@ export class MaterialComponent implements OnInit {
   ];
 
   constructor(
+    private msgSrv: NzMessageService,
     private modalService: NzModalService,
     private http: _HttpClient
   ) { }
@@ -90,13 +103,21 @@ export class MaterialComponent implements OnInit {
 
   showModal() {
     const modal = this.modalService.create({
-      // nzTitle: 'Modal Title',
       nzWidth: '70%',
       nzContent: MaterialModalComponent,
       nzComponentParams: {
         title: '新增材料',
       },
       nzFooter: null
+    });
+    modal.afterClose.subscribe(result => {
+      // console.log(result);
+      if (result === 'onOk') {
+        this.st.reload();
+        this.msgSrv.success('新增保存成功');
+      } else if ( result === 'onError') {
+        this.msgSrv.error('新增保存失败');
+      }
     });
   }
 

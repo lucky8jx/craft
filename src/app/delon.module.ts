@@ -40,10 +40,12 @@ export function fnAdSimpleTableConfig(): AdSimpleTableConfig {
 }
 
 import { DelonAuthConfig } from '@delon/auth';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 export function delonAuthConfig(): DelonAuthConfig {
   return Object.assign(new DelonAuthConfig(), <DelonAuthConfig>{
     login_url: '/passport/login',
-    token_send_place: 'url'
+    token_send_key: 'Authorization',
+    token_send_template: 'Token ${token}'
   });
 }
 

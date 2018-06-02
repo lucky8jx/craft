@@ -39,8 +39,11 @@ import { SFSchema, SFUISchema } from '@delon/form';
           title: '头像',
           ui: {
             widget: 'upload',
-            action: '/craft/componentInfo/file',
-            resReName: 'data'
+            action: '/components/file',
+            resReName: 'data',
+            change: (args) => {
+              console.log(args);
+            }
           }
         },
         description: { type: 'string', title: '备注', maxLength: 140 },
@@ -70,7 +73,7 @@ import { SFSchema, SFUISchema } from '@delon/form';
     ngOnInit(): void {
       if (!this.title) {
         this.modalTitle = `编辑 ${this.record.name} 材料信息`;
-        this.http.get(`/craft/componentInfo/${this.record.id}`).subscribe(res => (this.i = res));
+        this.http.get(`/components/${this.record.id}`).subscribe((res: any) => (this.i = res.data));
       } else {
         this.modalTitle = this.title;
         this.i = {
@@ -91,18 +94,26 @@ import { SFSchema, SFUISchema } from '@delon/form';
 
     addMaterial(value: any) {
       console.log(value);
-      this.http.post(`/craft/componentInfo`, value).subscribe(res => {
-        console.log(res);
-        this.msgSrv.success('保存成功');
-        this.modal.close(true);
-      });
+      this.http.post(`/components`, value).subscribe(
+        res => {
+        // console.log(res);
+          this.modal.close('onOk');
+        },
+        err => {
+          this.modal.close('onError');
+        }
+      );
     }
 
     updateMaterial(value: any) {
-      this.http.put(`/craft/componentInfo/${this.record.id}`, value).subscribe(res => {
-        this.msgSrv.success('保存成功');
-        this.modal.close(true);
-      });
+      this.http.put(`/components/${this.record.id}`, value).subscribe(
+        res => {
+          this.modal.close('onOk');
+        },
+        err => {
+          this.modal.close('onError');
+        }
+      );
     }
 
     close() {

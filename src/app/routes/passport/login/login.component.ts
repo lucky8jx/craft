@@ -25,6 +25,9 @@ export class UserLoginComponent implements OnDestroy {
   type = 0;
   loading = false;
 
+  count = 0;
+  interval$: any;
+
   constructor(
     fb: FormBuilder,
     private router: Router,
@@ -71,9 +74,6 @@ export class UserLoginComponent implements OnDestroy {
 
   // region: get captcha
 
-  count = 0;
-  interval$: any;
-
   getCaptcha() {
     this.count = 59;
     this.interval$ = setInterval(() => {
@@ -117,7 +117,7 @@ export class UserLoginComponent implements OnDestroy {
       this.reuseTabService.clear();
       // 设置Token信息
       this.tokenService.set({
-        token: '123456789',
+        token: 'ZGY5NWJhYmY5NDc4ZThlMzUyMmVjZjQ5NDUxYzhmYTg',
         name: this.userName.value,
         email: `cipchk@qq.com`,
         id: 10000,
