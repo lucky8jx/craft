@@ -96,19 +96,16 @@ export class StartupService {
             link: '/dashboard',
             icon: 'anticon anticon-appstore-o'
           },
-          {
-            text: '快捷菜单',
-            icon: 'anticon anticon-rocket',
-            shortcut_root: true
-          }
         ]
       },
       {
         text: '系统设置',
         group: true,
+        hideInBreadcrumb: true,
         children: [
           {
             text: '订单设置',
+            icon: 'anticon anticon-file-add',
             children: [
               {
                 text: '材料',

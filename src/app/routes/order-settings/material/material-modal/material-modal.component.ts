@@ -42,13 +42,11 @@ import { SFSchema, SFUISchema } from '@delon/form';
         unitPrice: { type: 'number', title: '单价(元)' },
         photo: {
           type: 'string',
-          title: '头像',
+          title: '图片',
           ui: {
             widget: 'upload',
             action: '/components/file',
-            // data: {
-            //   key: 'file'
-            // },
+            name: 'file',
             resReName: 'data',
             change: (args) => {
               console.log(args);
