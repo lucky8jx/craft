@@ -31,7 +31,13 @@ import { SFSchema, SFUISchema } from '@delon/form';
             widget: 'select'
           },
         },
-        thick: { type: 'number', title: '厚度(mm)' },
+        thick: {
+          type: 'number',
+          title: '厚度(mm)',
+          ui: {
+            addOnAfter: 'mm'
+          }
+        },
         unitWeight: { type: 'number', title: '单位重量(kg)' },
         unitPrice: { type: 'number', title: '单价(元)' },
         photo: {
@@ -40,6 +46,9 @@ import { SFSchema, SFUISchema } from '@delon/form';
           ui: {
             widget: 'upload',
             action: '/components/file',
+            // data: {
+            //   key: 'file'
+            // },
             resReName: 'data',
             change: (args) => {
               console.log(args);
