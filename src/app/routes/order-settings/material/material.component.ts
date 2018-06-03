@@ -37,7 +37,7 @@ export class MaterialComponent implements OnInit {
   @ViewChild('st') st: SimpleTableComponent;
   columns: SimpleTableColumn[] = [
     { title: '材质/规格', index: 'name'},
-    { title: '类型',  render: 'type', },
+    { title: '类型',  index: 'type', },
     {
       title: '图片',
       buttons: [

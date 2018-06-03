@@ -19,7 +19,7 @@
     <ng-template #expand let-item let-index="index" let-column="column">
       备注: {{ item.description }}
     </ng-template>
-    <ng-template st-row="type" let-item let-index="index">
+    <!-- <ng-template st-row="type" let-item let-index="index">
       <div [ngSwitch]="item.type">
           <span *ngSwitchCase="'0'">铁</span>
           <span *ngSwitchCase="'1'">木板</span>
@@ -28,7 +28,7 @@
           <span *ngSwitchCase="'4'">纸箱</span>
           <span *ngSwitchCase="'5'">皮垫</span>
       </div>
-    </ng-template>
+    </ng-template> -->
   </simple-table>
   <nz-modal [nzVisible]="previewVisible" [nzContent]="modalContent" [nzFooter]="null" (nzOnCancel)="previewVisible=false">
     <ng-template #modalContent>

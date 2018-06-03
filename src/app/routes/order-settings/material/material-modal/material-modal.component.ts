@@ -1,7 +1,10 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { NzModalRef, NzMessageService } from 'ng-zorro-antd';
 import { _HttpClient } from '@delon/theme';
-import { SFSchema, SFUISchema } from '@delon/form';
+import { SFSchema, SFUISchema, SFSchemaEnumType } from '@delon/form';
+
+import { of } from 'rxjs';
+import { map, delay } from 'rxjs/operators';
 
   @Component({
     selector: 'app-material-modal',
@@ -13,22 +16,25 @@ import { SFSchema, SFUISchema } from '@delon/form';
     modalTitle: string;
     record: any = {};
     i: any;
+    type: any;
     schema: SFSchema = {
       properties: {
         name: { type: 'string', title: '材质/规格' },
         type: {
-          type: 'number',
+          type: 'string',
           title: '类型',
-          enum: [
-            { label: '铁', value: 0 },
-            { label: '木板', value: 1 },
-            { label: '玻璃', value: 2 },
-            { label: '大理石', value: 3 },
-            { label: '纸箱', value: 4 },
-            { label: '皮垫', value: 5 },
-          ],
           ui: {
-            widget: 'select'
+            widget: 'select',
+            asyncData: () => this.http.get('/codes/component/type').pipe(
+              map((item: any) => {
+                return item.data.map(type => {
+                  return {
+                    label: type.name,
+                    value: type.id
+                  };
+                });
+              })
+            )
           },
         },
         thick: {
@@ -47,8 +53,12 @@ import { SFSchema, SFUISchema } from '@delon/form';
             widget: 'upload',
             action: '/components/file',
             name: 'file',
-            resReName: 'data',
+            resReName: 'data.url',
+            listType: 'picture-card',
             change: (args) => {
+              if (args.type === 'success') {
+
+              }
               console.log(args);
             }
           }
@@ -113,6 +123,7 @@ import { SFSchema, SFUISchema } from '@delon/form';
     }
 
     updateMaterial(value: any) {
+      console.log(value);
       this.http.put(`/components/${this.record.id}`, value).subscribe(
         res => {
           this.modal.close('onOk');
