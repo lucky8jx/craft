@@ -4,7 +4,7 @@ import { _HttpClient } from '@delon/theme';
 import { SFSchema, SFUISchema, SFSchemaEnumType } from '@delon/form';
 
 import { of } from 'rxjs';
-import { map, delay } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
   @Component({
     selector: 'app-material-modal',
@@ -30,7 +30,7 @@ import { map, delay } from 'rxjs/operators';
                 return item.data.map(type => {
                   return {
                     label: type.name,
-                    value: type.id
+                    value: type.value
                   };
                 });
               })
@@ -54,18 +54,43 @@ import { map, delay } from 'rxjs/operators';
             action: '/components/file',
             name: 'file',
             resReName: 'data.url',
-            listType: 'picture-card',
+            asyncData: () => {
+              if (!this.title) {
+                return this.http.get(`/components/${this.record.id}`).pipe(
+                  map((item: any) => {
+                    const photo = item.data.photo.split('/');
+                    const photoName = photo[photo.length - 1];
+                    return [
+                      {
+                        uid: -1,
+                        name: photoName,
+                        status: 'done',
+                        url: item.data.photo,
+                        response: {
+                          data: {
+                            url: item.data.photo
+                          }
+                        }
+                      }
+                    ];
+                  })
+                );
+              } else {
+                return of([]);
+              }
+            },
+            listType: 'picture',
             change: (args) => {
               if (args.type === 'success') {
 
               }
-              console.log(args);
+              // console.log(args);
             }
           }
         },
         description: { type: 'string', title: '备注', maxLength: 140 },
       },
-      required: ['name', 'type', 'photo'],
+      required: ['name', 'type', 'thick', 'unitWeight', 'unitPrice'],
     };
     ui: SFUISchema = {
       '*': {
@@ -89,8 +114,11 @@ import { map, delay } from 'rxjs/operators';
 
     ngOnInit(): void {
       if (!this.title) {
+        console.log(this.title);
         this.modalTitle = `编辑 ${this.record.name} 材料信息`;
-        this.http.get(`/components/${this.record.id}`).subscribe((res: any) => (this.i = res.data));
+        this.http.get(`/components/${this.record.id}`).subscribe((res: any) => {
+          this.i = res.data;
+        });
       } else {
         this.modalTitle = this.title;
         this.i = {
@@ -123,7 +151,7 @@ import { map, delay } from 'rxjs/operators';
     }
 
     updateMaterial(value: any) {
-      console.log(value);
+      // console.log(value);
       this.http.put(`/components/${this.record.id}`, value).subscribe(
         res => {
           this.modal.close('onOk');
