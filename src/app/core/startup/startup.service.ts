@@ -109,8 +109,12 @@ export class StartupService {
             children: [
               {
                 text: '材料',
-                link: '/order-settings/material'
+                link: '/order-settings/material',
               },
+              {
+                text: '色卡',
+                link: '/order-settings/colour-atla',
+              }
             ]
           },
         ]

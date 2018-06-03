@@ -39,6 +39,14 @@ export function fnAdSimpleTableConfig(): AdSimpleTableConfig {
     });
 }
 
+import { AdImageConfig } from '@delon/abc';
+export function fnAdImageConfig(): AdImageConfig {
+    return Object.assign(new AdImageConfig(), <AdImageConfig>{
+        // values
+        error: './assets/img/logo.svg'
+    });
+}
+
 import { DelonAuthConfig } from '@delon/auth';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 export function delonAuthConfig(): DelonAuthConfig {
@@ -87,6 +95,7 @@ export class DelonModule {
         // { provide: SimpleTableConfig, useFactory: simpleTableConfig }
         { provide: AdSimpleTableConfig, useFactory: fnAdSimpleTableConfig },
         { provide: AdPageHeaderConfig, useFactory: pageHeaderConfig },
+        { provide: AdImageConfig, useFactory: fnAdImageConfig },
         { provide: DelonAuthConfig, useFactory: delonAuthConfig },
       ],
     };

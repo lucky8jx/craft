@@ -1,21 +1,21 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { NzModalRef, NzMessageService } from 'ng-zorro-antd';
-import { _HttpClient } from '@delon/theme';
-import { SFSchema, SFUISchema } from '@delon/form';
+  import { NzModalRef, NzMessageService } from 'ng-zorro-antd';
+  import { _HttpClient } from '@delon/theme';
+  import { SFSchema, SFUISchema } from '@delon/form';
 
   @Component({
-    selector: 'app-material-modal',
-    templateUrl: './material-modal.component.html',
-    // styleUrls: ['./material-modal.component.css']
+    selector: 'app-colour-atla-modal',
+    templateUrl: './colour-atla-modal.component.html',
+    // styleUrls: ['./colour-atla-modal.component.css']
   })
-  export class MaterialModalComponent implements OnInit {
+  export class ColourAtlaModalComponent implements OnInit {
     @Input() title;
     modalTitle: string;
     record: any = {};
     i: any;
     schema: SFSchema = {
       properties: {
-        name: { type: 'string', title: '材质/规格' },
+        name: { type: 'string', title: '名称' },
         type: {
           type: 'number',
           title: '类型',
@@ -31,21 +31,14 @@ import { SFSchema, SFUISchema } from '@delon/form';
             widget: 'select'
           },
         },
-        thick: {
-          type: 'number',
-          title: '厚度(mm)',
-          ui: {
-            addOnAfter: 'mm'
-          }
-        },
-        unitWeight: { type: 'number', title: '单位重量(kg)' },
+        extra: { type: 'string', title: '表面加工处理' },
         unitPrice: { type: 'number', title: '单价(元)' },
         photo: {
           type: 'string',
           title: '图片',
           ui: {
             widget: 'upload',
-            action: '/components/file',
+            action: '/colours/file',
             name: 'file',
             resReName: 'data',
             change: (args) => {
@@ -79,8 +72,8 @@ import { SFSchema, SFUISchema } from '@delon/form';
 
     ngOnInit(): void {
       if (!this.title) {
-        this.modalTitle = `编辑 ${this.record.name} 材料信息`;
-        this.http.get(`/components/${this.record.id}`).subscribe((res: any) => (this.i = res.data));
+        this.modalTitle = `编辑 ${this.record.name} 色卡信息`;
+        this.http.get(`/colours/${this.record.id}`).subscribe((res: any) => (this.i = res.data));
       } else {
         this.modalTitle = this.title;
         this.i = {
@@ -89,19 +82,18 @@ import { SFSchema, SFUISchema } from '@delon/form';
           'photo': '',
           'type': null,
           'unitPrice': null,
-          'unitWeight': null,
-          'thick': null,
+          'extra': '',
         };
       }
     }
 
     save(value: any) {
-      this.title ? this.addMaterial(value) : this.updateMaterial(value);
+      this.title ? this.addColourAtla(value) : this.updateColourAtla(value);
     }
 
-    addMaterial(value: any) {
+    addColourAtla(value: any) {
       console.log(value);
-      this.http.post(`/components`, value).subscribe(
+      this.http.post(`/colours`, value).subscribe(
         res => {
         // console.log(res);
           this.modal.close('onOk');
@@ -112,8 +104,8 @@ import { SFSchema, SFUISchema } from '@delon/form';
       );
     }
 
-    updateMaterial(value: any) {
-      this.http.put(`/components/${this.record.id}`, value).subscribe(
+    updateColourAtla(value: any) {
+      this.http.put(`/colours/${this.record.id}`, value).subscribe(
         res => {
           this.modal.close('onOk');
         },

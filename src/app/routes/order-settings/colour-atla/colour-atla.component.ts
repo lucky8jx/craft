@@ -1,0 +1,127 @@
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { _HttpClient } from '@delon/theme';
+import { SimpleTableColumn, SimpleTableComponent } from '@delon/abc';
+import { SFSchema } from '@delon/form';
+import { NzMessageService, NzModalService } from 'ng-zorro-antd';
+import { ColourAtlaModalComponent } from './colour-atla-modal/colour-atla-modal.component';
+
+@Component({
+  selector: 'app-colour-atla',
+  templateUrl: './colour-atla.component.html',
+  styles: [
+    ':host ::ng-deep .materialImg { width: 50px; height: 50px; }',
+    ':host ::ng-deep .ant-table-tbody > tr > td { padding: 2px 8px }'
+  ],
+})
+export class ColourAtlaComponent implements OnInit {
+  previewImage = '';
+  previewVisible = false;
+  params: any = {};
+  reqReName: any = {
+    pi: 'page',
+    ps: 'size'
+  };
+  resReName: any = {
+    list: 'data',
+    total: 'paging.count'
+  };
+  url = `colours`;
+  searchSchema: SFSchema = {
+    properties: {
+      no: {
+        type: 'string',
+        title: '编号'
+      }
+    }
+  };
+  @ViewChild('st') st: SimpleTableComponent;
+  columns: SimpleTableColumn[] = [
+    { title: '名称', index: 'name'},
+    { title: '类型',  render: 'type', },
+    {
+      title: '图片',
+      buttons: [
+        {
+          text: '图片',
+          click: (record: any) => this.handlePreview(record),
+          format: (record: any) => `<img class="materialImg" src="${record.photo}">`
+        }
+      ]
+    },
+    { title: '表面加工处理', index: 'extra'},
+    { title: '单价(元)', type: 'number', index: 'unitPrice' },
+    // { title: '备注', index: 'description' },
+    {
+      title: '操作',
+      buttons: [
+          {
+              text: '删除',
+              type: 'del',
+              click: (recond: any) => {
+                this.http.delete(`/colours/${recond.id}`).subscribe(
+                  res => {
+                    this.st.reload();
+                    this.msgSrv.success('删除成功');
+                  },
+                  err => {
+                    this.msgSrv.error('删除失败');
+                  }
+                );
+              },
+          },
+          {
+              text: '编辑',
+              type: 'modal',
+              component: ColourAtlaModalComponent,
+              click: (record: any, modal: any) => {
+                  if (modal === 'onOk') {
+                    this.st.reload();
+                    this.msgSrv.success('编辑保存成功');
+                  } else if (modal === 'onError') {
+                    this.msgSrv.error('编辑保存失败');
+                  }
+              },
+              params: (record: any) => {
+                  return {
+                      material: record
+                  };
+              }
+          }
+        ]
+      }
+    ];
+
+    constructor(
+      private modalService: NzModalService,
+      private msgSrv: NzMessageService,
+      private http: _HttpClient,
+    ) { }
+
+    ngOnInit() { }
+
+    showModal() {
+      const modal = this.modalService.create({
+        nzWidth: '70%',
+        nzContent: ColourAtlaModalComponent,
+        nzComponentParams: {
+          title: '新增色卡',
+        },
+        nzFooter: null
+      });
+      modal.afterClose.subscribe(result => {
+        // console.log(result);
+        if (result === 'onOk') {
+          this.st.reload();
+          this.msgSrv.success('新增保存成功');
+        } else if ( result === 'onError') {
+          this.msgSrv.error('新增保存失败');
+        }
+      });
+    }
+
+    handlePreview = (record: any) => {
+      this.previewImage = record.photo;
+      this.previewVisible = true;
+    }
+
+}
