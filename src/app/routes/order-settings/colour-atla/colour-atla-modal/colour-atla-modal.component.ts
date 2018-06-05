@@ -1,7 +1,10 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-  import { NzModalRef, NzMessageService } from 'ng-zorro-antd';
-  import { _HttpClient } from '@delon/theme';
-  import { SFSchema, SFUISchema } from '@delon/form';
+import { NzModalRef, NzMessageService } from 'ng-zorro-antd';
+import { _HttpClient } from '@delon/theme';
+import { SFSchema, SFUISchema } from '@delon/form';
+
+import { of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
   @Component({
     selector: 'app-colour-atla-modal',
@@ -17,38 +20,66 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
       properties: {
         name: { type: 'string', title: '名称' },
         type: {
-          type: 'number',
+          type: 'string',
           title: '类型',
-          enum: [
-            { label: '铁', value: 0 },
-            { label: '木板', value: 1 },
-            { label: '玻璃', value: 2 },
-            { label: '大理石', value: 3 },
-            { label: '纸箱', value: 4 },
-            { label: '皮垫', value: 5 },
-          ],
           ui: {
-            widget: 'select'
+            widget: 'select',
+            asyncData: () => this.http.get('/codes/component/type').pipe(
+              map((item: any) => {
+                return item.data.map(type => {
+                  return {
+                    label: type.name,
+                    value: type.value
+                  };
+                });
+              })
+            )
           },
         },
-        extra: { type: 'string', title: '表面加工处理' },
+        process: { type: 'string', title: '表面加工处理' },
         unitPrice: { type: 'number', title: '单价(元)' },
         photo: {
           type: 'string',
           title: '图片',
           ui: {
             widget: 'upload',
-            action: '/colours/file',
+            action: '/colors/file',
             name: 'file',
-            resReName: 'data',
+            resReName: 'data.url',
+            asyncData: () => {
+              if (!this.title) {
+                return this.http.get(`/colors/${this.record.id}`).pipe(
+                  map((item: any) => {
+                    const photo = item.data.photo.split('/');
+                    const photoName = photo[photo.length - 1];
+                    return [
+                      {
+                        uid: -1,
+                        name: photoName,
+                        status: 'done',
+                        url: item.data.photo,
+                        response: {
+                          data: {
+                            url: item.data.photo
+                          }
+                        }
+                      }
+                    ];
+                  })
+                );
+              } else {
+                return of([]);
+              }
+            },
+            listType: 'picture',
             change: (args) => {
-              console.log(args);
+              // console.log(args);
             }
           }
         },
         description: { type: 'string', title: '备注', maxLength: 140 },
       },
-      required: ['name', 'type', 'photo'],
+      required: ['name', 'type', 'photo', 'process', 'unitPrice'],
     };
     ui: SFUISchema = {
       '*': {
@@ -73,7 +104,7 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
     ngOnInit(): void {
       if (!this.title) {
         this.modalTitle = `编辑 ${this.record.name} 色卡信息`;
-        this.http.get(`/colours/${this.record.id}`).subscribe((res: any) => (this.i = res.data));
+        this.http.get(`/colors/${this.record.id}`).subscribe((res: any) => (this.i = res.data));
       } else {
         this.modalTitle = this.title;
         this.i = {
@@ -82,7 +113,7 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
           'photo': '',
           'type': null,
           'unitPrice': null,
-          'extra': '',
+          'process': '',
         };
       }
     }
@@ -92,8 +123,8 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
     }
 
     addColourAtla(value: any) {
-      console.log(value);
-      this.http.post(`/colours`, value).subscribe(
+      // console.log(value);
+      this.http.post(`/colors`, value).subscribe(
         res => {
         // console.log(res);
           this.modal.close('onOk');
@@ -105,7 +136,7 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
     }
 
     updateColourAtla(value: any) {
-      this.http.put(`/colours/${this.record.id}`, value).subscribe(
+      this.http.put(`/colors/${this.record.id}`, value).subscribe(
         res => {
           this.modal.close('onOk');
         },

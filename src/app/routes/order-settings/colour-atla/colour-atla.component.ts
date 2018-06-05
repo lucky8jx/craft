@@ -9,7 +9,7 @@ import { ColourAtlaModalComponent } from './colour-atla-modal/colour-atla-modal.
   selector: 'app-colour-atla',
   templateUrl: './colour-atla.component.html',
   styles: [
-    ':host ::ng-deep .materialImg { width: 50px; height: 50px; }',
+    ':host ::ng-deep .colorImg { width: 50px; height: 50px; }',
     ':host ::ng-deep .ant-table-tbody > tr > td { padding: 2px 8px }'
   ],
 })
@@ -25,30 +25,30 @@ export class ColourAtlaComponent implements OnInit {
     list: 'data',
     total: 'paging.count'
   };
-  url = `colours`;
+  url = `/colors`;
   searchSchema: SFSchema = {
     properties: {
-      no: {
+      searchTerm: {
         type: 'string',
-        title: '编号'
+        title: '查询'
       }
     }
   };
   @ViewChild('st') st: SimpleTableComponent;
   columns: SimpleTableColumn[] = [
     { title: '名称', index: 'name'},
-    { title: '类型',  render: 'type', },
+    { title: '类型',  index: 'type', },
     {
       title: '图片',
       buttons: [
         {
           text: '图片',
           click: (record: any) => this.handlePreview(record),
-          format: (record: any) => `<img class="materialImg" src="${record.photo}">`
+          format: (record: any) => `<img class="colorImg" src="${record.photo}">`
         }
       ]
     },
-    { title: '表面加工处理', index: 'extra'},
+    { title: '表面加工处理', index: 'process'},
     { title: '单价(元)', type: 'number', index: 'unitPrice' },
     // { title: '备注', index: 'description' },
     {
@@ -58,7 +58,7 @@ export class ColourAtlaComponent implements OnInit {
               text: '删除',
               type: 'del',
               click: (recond: any) => {
-                this.http.delete(`/colours/${recond.id}`).subscribe(
+                this.http.delete(`/colors/${recond.id}`).subscribe(
                   res => {
                     this.st.reload();
                     this.msgSrv.success('删除成功');
@@ -98,6 +98,16 @@ export class ColourAtlaComponent implements OnInit {
     ) { }
 
     ngOnInit() { }
+
+    submit(value: any) {
+      console.log(JSON.stringify(value));
+      this.params = value;
+      this.st.reload();
+    }
+    reset() {
+      this.params = {};
+      this.st.reset();
+    }
 
     showModal() {
       const modal = this.modalService.create({

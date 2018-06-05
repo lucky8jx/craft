@@ -7,6 +7,7 @@ import { SharedModule } from '@shared/shared.module';
 import { MaterialModalComponent } from './material/material-modal/material-modal.component';
 import { ColourAtlaComponent } from './colour-atla/colour-atla.component';
 import { ColourAtlaModalComponent } from './colour-atla/colour-atla-modal/colour-atla-modal.component';
+import { FactoryComponent } from './factory/factory.component';
 
 @NgModule({
   imports: [
@@ -14,7 +15,7 @@ import { ColourAtlaModalComponent } from './colour-atla/colour-atla-modal/colour
     SharedModule,
     OrderSettingsRoutingModule
   ],
-  declarations: [MaterialComponent, MaterialModalComponent, ColourAtlaComponent, ColourAtlaModalComponent],
+  declarations: [MaterialComponent, MaterialModalComponent, ColourAtlaComponent, ColourAtlaModalComponent, FactoryComponent],
   entryComponents: [
     MaterialModalComponent,
     ColourAtlaModalComponent,
