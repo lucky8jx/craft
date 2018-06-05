@@ -138,7 +138,7 @@ import { map } from 'rxjs/operators';
     }
 
     addMaterial(value: any) {
-      console.log(value);
+      // console.log(value);
       this.http.post(`/components`, value).subscribe(
         res => {
         // console.log(res);
