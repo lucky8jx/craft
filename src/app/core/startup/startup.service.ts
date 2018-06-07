@@ -114,6 +114,20 @@ export class StartupService {
               {
                 text: '色卡',
                 link: '/order-settings/colour-atla',
+              },
+              {
+                text: '加工厂',
+                link: '/order-settings/factory',
+              },
+            ]
+          },
+          {
+            text: '组织机构设置',
+            icon: 'anticon anticon-team',
+            children: [
+              {
+                text: '账号',
+                link: '/organization-settings/accounts'
               }
             ]
           },

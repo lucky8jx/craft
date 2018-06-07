@@ -29,6 +29,10 @@ const routes: Routes = [
         path: 'order-settings',
         loadChildren: './order-settings/order-settings.module#OrderSettingsModule'
       },
+      {
+        path: 'organization-settings',
+        loadChildren: './organization-settings/organization-settings.module#OrganizationSettingsModule'
+      }
       // 业务子模块
       // { path: 'widgets', loadChildren: './widgets/widgets.module#WidgetsModule' }
     ]

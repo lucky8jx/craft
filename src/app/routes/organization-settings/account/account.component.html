@@ -1,0 +1,27 @@
+<page-header [title]="'账号'">
+  <ng-template #breadcrumb>
+    <nz-breadcrumb>
+        <nz-breadcrumb-item>组织机构设置</nz-breadcrumb-item>
+        <nz-breadcrumb-item>账号</nz-breadcrumb-item>
+    </nz-breadcrumb>
+  </ng-template>
+</page-header>
+<nz-card>
+  <sf mode="search" [schema]="searchSchema" [formData]="params" (formSubmit)="submit($event)" (formReset)="reset()"></sf>
+  <button nz-button (click)="showModal()" [nzType]="'primary'"
+    style="margin: 10px 0">
+    <i class="anticon anticon-plus"></i>
+    <span>新建</span>
+  </button>
+  <simple-table #st [data]="url" [columns]="columns" [extraParams]="params"
+    [reqReName]="reqReName" [resReName]="resReName" [bordered]="true">
+    <ng-template #expand let-item let-index="index" let-column="column">
+      备注: {{ item.description }}
+    </ng-template>
+  </simple-table>
+  <nz-modal [nzVisible]="previewVisible" [nzContent]="modalContent" [nzFooter]="null" (nzOnCancel)="previewVisible=false">
+    <ng-template #modalContent>
+      <img [src]="previewImage" [ngStyle]="{ 'width': '100%' }" />
+    </ng-template>
+  </nz-modal>
+</nz-card>
