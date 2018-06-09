@@ -19,17 +19,16 @@ import { map } from 'rxjs/operators';
     schema: SFSchema = {
       properties: {
         username: { type: 'string', title: '用户名' },
-        nickname: { type: 'string', title: '昵称' },
-        role: {
+        role_id: {
           type: 'string',
           title: '角色',
           ui: {
             widget: 'select',
-            asyncData: () => this.http.get('/accounts/role?roleName=customer_service').pipe(
+            asyncData: () => this.http.get('/roles/sub/all').pipe(
               map((item: any) => {
                 return item.data.map(type => {
                   return {
-                    label: type.username,
+                    label: type.description,
                     value: type.id
                   };
                 });
@@ -37,15 +36,16 @@ import { map } from 'rxjs/operators';
             )
           },
         },
+        email: { type: 'string', title: '邮箱', format: 'email' },
+        password: { type: 'string', title: '密码', ui: { type: 'password'} },
         phone: { type: 'string', title: '电话' },
         wechat: { type: 'string', title: '微信' },
-        description: { type: 'string', title: '备注', maxLength: 140 },
-        avatar: {
+        photo: {
           type: 'string',
           title: '图片',
           ui: {
             widget: 'upload',
-            action: '/accouts/file',
+            action: '/accounts/file',
             name: 'file',
             resReName: 'data.url',
             asyncData: () => {
@@ -73,14 +73,14 @@ import { map } from 'rxjs/operators';
                 return of([]);
               }
             },
-            listType: 'picture',
+            listType: 'picture-card',
             change: (args) => {
               // console.log(args);
             }
           }
         },
       },
-      required: ['username', 'role', 'phone', 'wechat'],
+      required: ['username', 'role', 'phone', 'email'],
     };
     ui: SFUISchema = {
       '*': {
@@ -109,12 +109,14 @@ import { map } from 'rxjs/operators';
       } else {
         this.modalTitle = this.title;
         this.i = {
+          'appId': 'gslb',
+          'companyId': '',
           'username': '',
-          'description': '',
           'phone': '',
-          'role': '',
+          'role_id': '',
           'wechat': '',
-          'nickname': '',
+          'email': '',
+          'password': '',
         };
       }
     }
@@ -125,6 +127,11 @@ import { map } from 'rxjs/operators';
 
     addAccount(value: any) {
       // console.log(value);
+      // value = {
+      //   appId: 'gslb',
+      //   companyId: '',
+      //   ...value
+      // };
       this.http.post(`/accounts`, value).subscribe(
         res => {
         // console.log(res);

@@ -27,18 +27,18 @@ export class AccountComponent implements OnInit {
     total: 'paging.count'
   };
   url = `/accounts`;
-  searchSchema: SFSchema = {
-    properties: {
-      searchTerm: {
-        type: 'string',
-        title: '查询'
-      }
-    }
-  };
+  // searchSchema: SFSchema = {
+  //   properties: {
+  //     searchTerm: {
+  //       type: 'string',
+  //       title: '查询'
+  //     }
+  //   }
+  // };
   @ViewChild('st') st: SimpleTableComponent;
   columns: SimpleTableColumn[] = [
     { title: '用户名', index: 'username' },
-    { title: '昵称', index: 'nickname' },
+    // { title: '昵称', index: 'nickname' },
     {
       title: '头像',
       buttons: [
@@ -49,7 +49,7 @@ export class AccountComponent implements OnInit {
         }
       ]
     },
-    { title: '角色', index: 'role' },
+    { title: '角色', index: 'role.name' },
     { title: '电话', index: 'phone' },
     { title: '微信', index: 'wechat' },
     {

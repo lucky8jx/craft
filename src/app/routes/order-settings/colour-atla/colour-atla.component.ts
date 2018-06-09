@@ -26,14 +26,14 @@ export class ColourAtlaComponent implements OnInit {
     total: 'paging.count'
   };
   url = `/colors`;
-  searchSchema: SFSchema = {
-    properties: {
-      searchTerm: {
-        type: 'string',
-        title: '查询'
-      }
-    }
-  };
+  // searchSchema: SFSchema = {
+  //   properties: {
+  //     searchTerm: {
+  //       type: 'string',
+  //       title: '查询'
+  //     }
+  //   }
+  // };
   @ViewChild('st') st: SimpleTableComponent;
   columns: SimpleTableColumn[] = [
     { title: '名称', index: 'name'},
@@ -102,7 +102,7 @@ export class ColourAtlaComponent implements OnInit {
     submit(value: any) {
       console.log(JSON.stringify(value));
       this.params = value;
-      this.st.reload();
+      this.st.reload(this.params);
     }
     reset() {
       this.params = {};

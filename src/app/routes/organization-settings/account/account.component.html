@@ -1,13 +1,13 @@
-<page-header [title]="'账号'">
+<page-header [title]="'用户'">
   <ng-template #breadcrumb>
     <nz-breadcrumb>
         <nz-breadcrumb-item>组织机构设置</nz-breadcrumb-item>
-        <nz-breadcrumb-item>账号</nz-breadcrumb-item>
+        <nz-breadcrumb-item>用户</nz-breadcrumb-item>
     </nz-breadcrumb>
   </ng-template>
 </page-header>
 <nz-card>
-  <sf mode="search" [schema]="searchSchema" [formData]="params" (formSubmit)="submit($event)" (formReset)="reset()"></sf>
+  <!-- <sf mode="search" [schema]="searchSchema" (formSubmit)="submit($event)" (formReset)="reset()"></sf> -->
   <button nz-button (click)="showModal()" [nzType]="'primary'"
     style="margin: 10px 0">
     <i class="anticon anticon-plus"></i>

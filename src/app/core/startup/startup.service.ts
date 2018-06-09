@@ -126,7 +126,7 @@ export class StartupService {
             icon: 'anticon anticon-team',
             children: [
               {
-                text: '账号',
+                text: '用户',
                 link: '/organization-settings/accounts'
               }
             ]
