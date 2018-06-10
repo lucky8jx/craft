@@ -15,9 +15,9 @@
   </button>
   <simple-table #st [data]="url" [columns]="columns" [extraParams]="params"
     [reqReName]="reqReName" [resReName]="resReName" [bordered]="true">
-    <ng-template #expand let-item let-index="index" let-column="column">
+    <!-- <ng-template #expand let-item let-index="index" let-column="column">
       备注: {{ item.description }}
-    </ng-template>
+    </ng-template> -->
   </simple-table>
   <nz-modal [nzVisible]="previewVisible" [nzContent]="modalContent" [nzFooter]="null" (nzOnCancel)="previewVisible=false">
     <ng-template #modalContent>

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { NzModalRef, NzMessageService } from 'ng-zorro-antd';
 import { _HttpClient } from '@delon/theme';
-import { SFSchema, SFUISchema } from '@delon/form';
+import { SFSchema, SFUISchema, FormProperty, PropertyGroup } from '@delon/form';
 
 import { of } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -36,9 +36,21 @@ import { map } from 'rxjs/operators';
             )
           },
         },
-        email: { type: 'string', title: '邮箱', format: 'email' },
+        nick_name: { type: 'string', title: '昵称' },
         password: { type: 'string', title: '密码', ui: { type: 'password'} },
-        phone: { type: 'string', title: '电话' },
+        email: { type: 'string', title: '邮箱', format: 'email' },
+        phone: {
+          type: 'string',
+          title: '电话',
+          ui: {
+            validator: (value: any, formProperty: FormProperty, form: PropertyGroup) => {
+              return value.length === 11 ? [] : [{
+                keyword: 'lengthEqEleven',
+                message: '手机号码需为11位'
+              }];
+            }
+          }
+        },
         wechat: { type: 'string', title: '微信' },
         photo: {
           type: 'string',
@@ -80,7 +92,7 @@ import { map } from 'rxjs/operators';
           }
         },
       },
-      required: ['username', 'role', 'phone', 'email'],
+      required: ['username', 'role_id', 'password', 'nick_name', 'phone', 'email'],
     };
     ui: SFUISchema = {
       '*': {
@@ -104,8 +116,13 @@ import { map } from 'rxjs/operators';
 
     ngOnInit(): void {
       if (!this.title) {
-        this.modalTitle = `编辑 ${this.record.name} 用户信息`;
-        this.http.get(`/accounts/${this.record.id}`).subscribe((res: any) => (this.i = res.data));
+        this.modalTitle = `编辑 ${this.record.nick_name} 用户信息`;
+        this.http.get(`/accounts/${this.record.id}`).subscribe((res: any) => {
+          this.i = {
+            ...res.data,
+            role_id: res.data.role.id
+          };
+        });
       } else {
         this.modalTitle = this.title;
         this.i = {
@@ -114,6 +131,7 @@ import { map } from 'rxjs/operators';
           'username': '',
           'phone': '',
           'role_id': '',
+          'nick_name': '',
           'wechat': '',
           'email': '',
           'password': '',

@@ -26,7 +26,7 @@ export class AccountComponent implements OnInit {
     list: 'data',
     total: 'paging.count'
   };
-  url = `/accounts`;
+  url = `/accounts/company`;
   // searchSchema: SFSchema = {
   //   properties: {
   //     searchTerm: {
@@ -38,7 +38,7 @@ export class AccountComponent implements OnInit {
   @ViewChild('st') st: SimpleTableComponent;
   columns: SimpleTableColumn[] = [
     { title: '用户名', index: 'username' },
-    // { title: '昵称', index: 'nickname' },
+    { title: '昵称', index: 'nick_name' },
     {
       title: '头像',
       buttons: [
