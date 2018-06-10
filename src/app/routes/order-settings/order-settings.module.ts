@@ -8,6 +8,8 @@ import { MaterialModalComponent } from './material/material-modal/material-modal
 import { ColourAtlaComponent } from './colour-atla/colour-atla.component';
 import { ColourAtlaModalComponent } from './colour-atla/colour-atla-modal/colour-atla-modal.component';
 import { FactoryComponent } from './factory/factory.component';
+import { StoreComponent } from './store/store.component';
+import { StoreModalComponent } from './store/store-modal/store-modal.component';
 
 @NgModule({
   imports: [
@@ -15,10 +17,14 @@ import { FactoryComponent } from './factory/factory.component';
     SharedModule,
     OrderSettingsRoutingModule
   ],
-  declarations: [MaterialComponent, MaterialModalComponent, ColourAtlaComponent, ColourAtlaModalComponent, FactoryComponent],
+  declarations: [
+    MaterialComponent, MaterialModalComponent,
+    ColourAtlaComponent, ColourAtlaModalComponent,
+    FactoryComponent, StoreComponent, StoreModalComponent
+  ],
   entryComponents: [
-    MaterialModalComponent,
-    ColourAtlaModalComponent,
+    MaterialModalComponent, ColourAtlaModalComponent,
+    StoreModalComponent,
   ]
 })
 export class OrderSettingsModule { }

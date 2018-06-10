@@ -115,6 +115,7 @@ export class StartupService {
                 text: '色卡',
                 link: '/order-settings/colour-atla',
               },
+              { text: '店铺', link: '/order-settings/store' },
               {
                 text: '加工厂',
                 link: '/order-settings/factory',
