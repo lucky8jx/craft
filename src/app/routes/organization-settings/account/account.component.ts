@@ -49,7 +49,7 @@ export class AccountComponent implements OnInit {
         }
       ]
     },
-    { title: '角色', index: 'role.name' },
+    { title: '角色', index: 'role.description' },
     { title: '电话', index: 'phone' },
     { title: '微信', index: 'wechat' },
     {

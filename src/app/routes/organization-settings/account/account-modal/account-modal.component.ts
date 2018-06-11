@@ -37,7 +37,21 @@ import { map } from 'rxjs/operators';
           },
         },
         nick_name: { type: 'string', title: '昵称' },
-        password: { type: 'string', title: '密码', ui: { type: 'password'} },
+        password: {
+          type: 'string',
+          title: '密码',
+          // readOnly: !!this.title,
+          // shown: true,
+          ui: {
+            type: 'password',
+            visibleIf: {
+              password: (value: any) => {
+                // console.log(value);
+                return !!this.title;
+              }
+            }
+          }
+        },
         email: { type: 'string', title: '邮箱', format: 'email' },
         phone: {
           type: 'string',
@@ -120,7 +134,7 @@ import { map } from 'rxjs/operators';
         this.http.get(`/accounts/${this.record.id}`).subscribe((res: any) => {
           this.i = {
             ...res.data,
-            role_id: res.data.role.id
+            role_id: res.data.role.id,
           };
         });
       } else {
@@ -140,16 +154,11 @@ import { map } from 'rxjs/operators';
     }
 
     save(value: any) {
+      // console.log(value);
       this.title ? this.addAccount(value) : this.updateAccount(value);
     }
 
     addAccount(value: any) {
-      // console.log(value);
-      // value = {
-      //   appId: 'gslb',
-      //   companyId: '',
-      //   ...value
-      // };
       this.http.post(`/accounts`, value).subscribe(
         res => {
         // console.log(res);
