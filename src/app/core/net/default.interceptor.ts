@@ -74,7 +74,7 @@ export class DefaultInterceptor implements HttpInterceptor {
             '未可知错误，大部分是由于后端不支持CORS或无效配置引起',
             event,
           );
-          this.msg.error(event.message);
+          this.msg.error(event.error.message);
         }
         break;
     }

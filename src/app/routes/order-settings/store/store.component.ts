@@ -32,7 +32,7 @@ export class StoreComponent implements OnInit {
     // };
     @ViewChild('st') st: SimpleTableComponent;
     columns: SimpleTableColumn[] = [
-      { title: '名称', index: 'name' },
+      { title: '名称', index: 'name', fixed: 'left', width: '150px' },
       { title: '运营负责人电话', index: 'ownerPhone' },
       { title: '运营负责人微信', index: 'ownerWechat' },
       { title: '地址', index: 'storeAddr' },
@@ -76,7 +76,9 @@ export class StoreComponent implements OnInit {
                     };
                 }
             }
-          ]
+          ],
+          fixed: 'right',
+          width: '110px',
         }
     ];
 

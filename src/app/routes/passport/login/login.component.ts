@@ -100,7 +100,7 @@ export class UserLoginComponent implements OnDestroy {
       body = {
         appid: 'gslb',
         password: this.password.value,
-        remember: this.remember.value,
+        rememberMe: this.remember.value,
         username: this.userName.value
       };
     } else {

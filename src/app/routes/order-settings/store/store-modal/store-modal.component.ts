@@ -19,6 +19,23 @@ import { map } from 'rxjs/operators';
     schema: SFSchema = {
       properties: {
         name: { type: 'string', title: '名称' },
+        type: {
+          type: 'string',
+          title: '店铺类型',
+          ui: {
+            widget: 'select',
+            asyncData: () => this.http.get('/codes/store/type').pipe(
+              map((item: any) => {
+                return item.data.map(type => {
+                  return {
+                    label: type.name,
+                    value: type.id
+                  };
+                });
+              })
+            )
+          },
+        },
         ownerPhone: { type: 'string', title: '负责人电话', },
         ownerWechat: { type: 'string', title: '负责人微信' },
         storeAddr: { type: 'string', title: '地址' },

@@ -36,7 +36,7 @@ import { map } from 'rxjs/operators';
             )
           },
         },
-        nick_name: { type: 'string', title: '昵称' },
+        nickName: { type: 'string', title: '昵称' },
         password: {
           type: 'string',
           title: '密码',
@@ -106,7 +106,7 @@ import { map } from 'rxjs/operators';
           }
         },
       },
-      required: ['username', 'role_id', 'password', 'nick_name', 'phone', 'email'],
+      required: ['username', 'role_id', 'password', 'nickName', 'phone', 'email'],
     };
     ui: SFUISchema = {
       '*': {
@@ -130,7 +130,7 @@ import { map } from 'rxjs/operators';
 
     ngOnInit(): void {
       if (!this.title) {
-        this.modalTitle = `编辑 ${this.record.nick_name} 用户信息`;
+        this.modalTitle = `编辑 ${this.record.nickName} 用户信息`;
         this.http.get(`/accounts/${this.record.id}`).subscribe((res: any) => {
           this.i = {
             ...res.data,
@@ -145,7 +145,7 @@ import { map } from 'rxjs/operators';
           'username': '',
           'phone': '',
           'role_id': '',
-          'nick_name': '',
+          'nickName': '',
           'wechat': '',
           'email': '',
           'password': '',
@@ -165,6 +165,7 @@ import { map } from 'rxjs/operators';
           this.modal.close('onOk');
         },
         err => {
+          console.log('abc');
           this.modal.close('onError');
         }
       );
