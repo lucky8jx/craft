@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { NzModalRef, NzMessageService } from 'ng-zorro-antd';
 import { _HttpClient } from '@delon/theme';
-import { SFSchema, SFUISchema } from '@delon/form';
+import { SFSchema, SFUISchema, FormProperty, PropertyGroup } from '@delon/form';
 
 import { of } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -19,7 +19,7 @@ import { map } from 'rxjs/operators';
     schema: SFSchema = {
       properties: {
         name: { type: 'string', title: '名称' },
-        type: {
+        storeType: {
           type: 'string',
           title: '店铺类型',
           ui: {
@@ -29,14 +29,25 @@ import { map } from 'rxjs/operators';
                 return item.data.map(type => {
                   return {
                     label: type.name,
-                    value: type.id
+                    value: type.value
                   };
                 });
               })
             )
           },
         },
-        ownerPhone: { type: 'string', title: '负责人电话', },
+        ownerPhone: {
+          type: 'string',
+          title: '负责人电话',
+          ui: {
+            validator: (value: any, formProperty: FormProperty, form: PropertyGroup) => {
+              return value.length === 11 ? [] : [{
+                keyword: 'lengthEqEleven',
+                message: '手机号码需为11位'
+              }];
+            }
+          }
+        },
         ownerWechat: { type: 'string', title: '负责人微信' },
         storeAddr: { type: 'string', title: '地址' },
         storeDescription: { type: 'string', title: '描述' },
@@ -49,7 +60,7 @@ import { map } from 'rxjs/operators';
               map((item: any) => {
                 return item.data.map(account => {
                   return {
-                    label: account.nick_name,
+                    label: account.nickName,
                     value: account.id
                   };
                 });
@@ -58,7 +69,7 @@ import { map } from 'rxjs/operators';
           },
         },
       },
-      required: ['name', 'ownerPhone', 'accountId'],
+      required: ['name', 'storeType', 'ownerPhone', 'accountId'],
     };
     ui: SFUISchema = {
       '*': {

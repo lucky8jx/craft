@@ -37,7 +37,7 @@ export class StoreComponent implements OnInit {
       { title: '运营负责人微信', index: 'ownerWechat' },
       { title: '地址', index: 'storeAddr' },
       { title: '描述', index: 'storeDescription' },
-      { title: '客服负责人', index: 'accountModel.nick_name' },
+      { title: '客服负责人', index: 'accountModel.nickName' },
       { title: '客服负责人电话', index: 'accountModel.phone' },
       { title: '客服负责人微信', index: 'accountModel.wechat' },
       {
